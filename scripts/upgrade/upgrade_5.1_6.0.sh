@@ -67,20 +67,20 @@ function read_seafile_data_dir () {
 
 function ensure_server_not_running() {
     # test whether seafile server has been stopped.
-    if pgrep seaf-server 2>/dev/null 1>&2 ; then
+    if pgrep -u $USER seaf-server 2>/dev/null 1>&2 ; then
         echo
         echo "seafile server is still running !"
         echo "stop it using scripts before upgrade."
         echo
         exit 1
-    elif pgrep -f "${manage_py} run_gunicorn" 2>/dev/null 1>&2 \
+    elif pgrep -u $USER -f "${manage_py} run_gunicorn" 2>/dev/null 1>&2 \
          || pgrep -f "seahub.wsgi:application" 2>/dev/null 1>&2; then
         echo
         echo "seahub server is still running !"
         echo "stop it before upgrade."
         echo
         exit 1
-    elif pgrep -f "${manage_py} runfcgi" 2>/dev/null 1>&2 ; then
+    elif pgrep -u $USER -f "${manage_py} runfcgi" 2>/dev/null 1>&2 ; then
         echo
         echo "seahub server is still running !"
         echo "stop it before upgrade."
